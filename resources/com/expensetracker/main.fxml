@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.expensetracker.controller.MainController"
+            style="-fx-background-color: #f0f2f5;">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20"
+              style="-fx-background-color: #1a1a2e; -fx-padding: 14 24 14 24;">
+            <Label text="💰 Expense Tracker"
+                   style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <VBox alignment="CENTER_RIGHT" spacing="2">
+                <Label fx:id="balanceLabel" text="Balance: ₹ 0.00"
+                       style="-fx-text-fill: #27ae60; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <HBox spacing="16">
+                    <Label fx:id="totalIncomeLabel" text="Total Income: ₹ 0.00"
+                           style="-fx-text-fill: #2ecc71; -fx-font-size: 12px;"/>
+                    <Label fx:id="totalExpenseLabel" text="Total Expenses: ₹ 0.00"
+                           style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"/>
+                </HBox>
+            </VBox>
+        </HBox>
+    </top>
+
+    <!-- LEFT PANEL — Input Form -->
+    <left>
+        <VBox spacing="12" minWidth="240" maxWidth="260"
+              style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 1 0 0;">
+            <padding><Insets top="20" right="16" bottom="20" left="16"/></padding>
+
+            <Label text="Transaction Form"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+
+            <Separator/>
+
+            <Label text="Amount (₹)" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <TextField fx:id="amountField" promptText="e.g. 1500.00"
+                       style="-fx-background-color: #f8f9fa; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"/>
+
+            <Label text="Category" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <TextField fx:id="categoryField" promptText="e.g. Groceries"
+                       style="-fx-background-color: #f8f9fa; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"/>
+
+            <Label text="Date" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <DatePicker fx:id="datePicker" maxWidth="Infinity"
+                        style="-fx-background-color: #f8f9fa;"/>
+
+            <Label text="Type" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <ComboBox fx:id="typeCombo" maxWidth="Infinity"
+                      style="-fx-background-color: #f8f9fa;"/>
+
+            <Separator/>
+
+            <Button text="➕  Add Income" onAction="#handleAddIncome" maxWidth="Infinity"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+
+            <Button text="➖  Add Expense" onAction="#handleAddExpense" maxWidth="Infinity"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+
+            <Button text="✏️  Update Selected" onAction="#handleUpdate" maxWidth="Infinity"
+                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+
+            <Button text="🗑  Delete Selected" onAction="#handleDelete" maxWidth="Infinity"
+                    style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Separator/>
+            <Label text="Select a row to edit or delete."
+                   wrapText="true"
+                   style="-fx-font-size: 11px; -fx-text-fill: #999;"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER — Search + Table -->
+    <center>
+        <VBox spacing="0" style="-fx-background-color: #f0f2f5;">
+
+            <!-- Search Bar -->
+            <HBox spacing="10" alignment="CENTER_LEFT"
+                  style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 1 0; -fx-padding: 12 16;">
+                <Label text="🔍 Filter:" style="-fx-font-weight: bold; -fx-text-fill: #333;"/>
+                <ComboBox fx:id="searchTypeCombo" prefWidth="110"/>
+                <TextField fx:id="searchCategoryField" promptText="Category..." prefWidth="160"
+                           style="-fx-background-color: #f8f9fa; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"/>
+                <DatePicker fx:id="searchDatePicker" prefWidth="150"/>
+                <Button text="Search" onAction="#handleSearch"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 6 16; -fx-cursor: hand;"/>
+                <Button text="Clear" onAction="#handleClearSearch"
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 6 16; -fx-cursor: hand;"/>
+            </HBox>
+
+            <!-- Transactions Table -->
+            <VBox VBox.vgrow="ALWAYS" style="-fx-padding: 16;">
+                <Label text="All Transactions"
+                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-padding: 0 0 8 0;"/>
+                <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS"
+                           style="-fx-background-color: white; -fx-border-color: #dde1e7; -fx-border-radius: 6; -fx-background-radius: 6;"
+                           placeholder="&lt;Label text='No transactions found.' /&gt;">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="55"/>
+                        <TableColumn fx:id="colType" text="Type" prefWidth="100"/>
+                        <TableColumn fx:id="colAmount" text="Amount (₹)" prefWidth="130"/>
+                        <TableColumn fx:id="colCategory" text="Category" prefWidth="180"/>
+                        <TableColumn fx:id="colDate" text="Date" prefWidth="120"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+
+    <!-- RIGHT PANEL — Category Summary -->
+    <right>
+        <VBox spacing="8" minWidth="210" maxWidth="230"
+              style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 0 1;">
+            <padding><Insets top="20" right="14" bottom="20" left="14"/></padding>
+
+            <Label text="📊 Expense Summary"
+                   style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+            <Label text="Category-wise breakdown"
+                   style="-fx-font-size: 11px; -fx-text-fill: #999;"/>
+
+            <Separator/>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <VBox fx:id="summaryBox" spacing="6" style="-fx-padding: 4 0;">
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </right>
+
+</BorderPane>
