@@ -102,8 +102,10 @@
                 <Label text="All Transactions"
                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-padding: 0 0 8 0;"/>
                 <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS"
-                           style="-fx-background-color: white; -fx-border-color: #dde1e7; -fx-border-radius: 6; -fx-background-radius: 6;"
-                           placeholder="&lt;Label text='No transactions found.' /&gt;">
+                           style="-fx-background-color: white; -fx-border-color: #dde1e7; -fx-border-radius: 6; -fx-background-radius: 6;">
+                    <placeholder>
+                        <Label text="No transactions found." />
+                    </placeholder>
                     <columns>
                         <TableColumn fx:id="colId" text="ID" prefWidth="55"/>
                         <TableColumn fx:id="colType" text="Type" prefWidth="100"/>
