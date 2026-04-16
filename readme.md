@@ -7,7 +7,7 @@ A desktop Expense Tracker application following layered architecture, the DAO de
 ## Prerequisites
 
 - macOS (Apple Silicon or Intel)
-- Java 17+
+- Java 21
 - JavaFX 21 SDK
 - MySQL 8.x
 - MySQL Connector/J 8.x JAR
@@ -43,20 +43,20 @@ mysql -u root -p < db/setup.sql
 
 ---
 
-## Step 4 — Download JavaFX 21 SDK
+## Step 4 — Download JavaFX 26 SDK
 
 1. Go to https://gluonhq.com/products/javafx/
-2. Download **JavaFX 21 SDK** for macOS (choose aarch64 for Apple Silicon, x64 for Intel)
+2. Download **JavaFX 26 SDK** for macOS (choose aarch64 for Apple Silicon, x64 for Intel)
 3. Extract and place the folder at:
 
 ```
-ExpenseTracker/lib/javafx-sdk-21/
+ExpenseTracker/lib/javafx-sdk-26/
 ```
-
+  
 Confirm the path contains:
 ```
-lib/javafx-sdk-21/lib/javafx.controls.jar
-lib/javafx-sdk-21/lib/javafx.fxml.jar
+lib/javafx-sdk-26/lib/javafx.controls.jar
+lib/javafx-sdk-26/lib/javafx.fxml.jar
 ```
 
 ---
@@ -91,7 +91,7 @@ From the `ExpenseTracker/` root directory:
 
 ```bash
 javac \
-  --module-path lib/javafx-sdk-21/lib \
+  --module-path lib/javafx-sdk-26/lib \
   --add-modules javafx.controls,javafx.fxml \
   -cp "lib/mysql-connector.jar" \
   -d out \
@@ -112,13 +112,11 @@ cp -r resources/* out/
 
 ```bash
 java \
-  --module-path lib/javafx-sdk-21/lib \
+  --module-path lib/javafx-sdk-26/lib \
   --add-modules javafx.controls,javafx.fxml \
   -cp "out:lib/mysql-connector.jar" \
   com.expensetracker.MainApp
 ```
-
-On Windows (if needed), replace `:` with `;` in the classpath.
 
 ---
 
@@ -160,7 +158,7 @@ ExpenseTracker/
 ├── db/
 │   └── setup.sql
 ├── lib/
-│   ├── javafx-sdk-21/
+│   ├── javafx-sdk-26/
 │   └── mysql-connector.jar
 └── README.md
 ```
