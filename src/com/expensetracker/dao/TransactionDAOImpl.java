@@ -14,7 +14,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public void addTransaction(Transaction transaction) {
-        String sql = "INSERT INTO transactions (type, amount, category, date, user_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO transactions (type, amount, category, date, notes, user_id) VALUES (?, ?, ?, ?, ?, ?)";
         Connection connection = null;
         try {
             connection = DBConnection.getConnection();
@@ -23,7 +23,8 @@ public class TransactionDAOImpl implements TransactionDAO {
             ps.setDouble(2, transaction.getAmount());
             ps.setString(3, transaction.getCategory());
             ps.setDate(4, Date.valueOf(transaction.getDate()));
-            ps.setInt(5, transaction.getUserId());
+            ps.setString(5, transaction.getNotes());
+            ps.setInt(6, transaction.getUserId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Error adding transaction: " + e.getMessage(), e);
@@ -74,7 +75,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public void updateTransaction(Transaction transaction) {
-        String sql = "UPDATE transactions SET type = ?, amount = ?, category = ?, date = ? WHERE id = ?";
+        String sql = "UPDATE transactions SET type = ?, amount = ?, category = ?, date = ?, notes = ? WHERE id = ?";
         Connection connection = null;
         try {
             connection = DBConnection.getConnection();
@@ -83,7 +84,8 @@ public class TransactionDAOImpl implements TransactionDAO {
             ps.setDouble(2, transaction.getAmount());
             ps.setString(3, transaction.getCategory());
             ps.setDate(4, Date.valueOf(transaction.getDate()));
-            ps.setInt(5, transaction.getId());
+            ps.setString(5, transaction.getNotes());
+            ps.setInt(6, transaction.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Error updating transaction: " + e.getMessage(), e);
@@ -110,6 +112,11 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Override
     public List<Transaction> searchTransactions(String type, String category, String date) {
+        return searchTransactionsWithRange(type, category, date, null);
+    }
+
+    @Override
+    public List<Transaction> searchTransactionsWithRange(String type, String category, String fromDate, String toDate) {
         List<Transaction> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM transactions WHERE 1=1");
         List<Object> params = new ArrayList<>();
@@ -122,9 +129,13 @@ public class TransactionDAOImpl implements TransactionDAO {
             sql.append(" AND category LIKE ?");
             params.add("%" + category + "%");
         }
-        if (date != null && !date.isEmpty()) {
-            sql.append(" AND date = ?");
-            params.add(date);
+        if (fromDate != null && !fromDate.isEmpty()) {
+            sql.append(" AND date >= ?");
+            params.add(fromDate);
+        }
+        if (toDate != null && !toDate.isEmpty()) {
+            sql.append(" AND date <= ?");
+            params.add(toDate);
         }
         sql.append(" ORDER BY date DESC");
 
@@ -167,13 +178,72 @@ public class TransactionDAOImpl implements TransactionDAO {
         return summary;
     }
 
+    @Override
+    public Map<String, Double> getMonthlySummary(int year, int month) {
+        String sql = "SELECT type, SUM(amount) as total FROM transactions " +
+                     "WHERE YEAR(date) = ? AND MONTH(date) = ? GROUP BY type";
+        Map<String, Double> summary = new HashMap<>();
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                summary.put(rs.getString("type"), rs.getDouble("total"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching monthly summary: " + e.getMessage(), e);
+        } finally {
+            DBConnection.closeConnection(connection);
+        }
+        return summary;
+    }
+
+    @Override
+    public int getTotalCount() {
+        String sql = "SELECT COUNT(*) FROM transactions";
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error counting transactions: " + e.getMessage(), e);
+        } finally {
+            DBConnection.closeConnection(connection);
+        }
+        return 0;
+    }
+
+    @Override
+    public int getCountByType(String type) {
+        String sql = "SELECT COUNT(*) FROM transactions WHERE type = ?";
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, type);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error counting by type: " + e.getMessage(), e);
+        } finally {
+            DBConnection.closeConnection(connection);
+        }
+        return 0;
+    }
+
     private Transaction mapRow(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         String type = rs.getString("type");
         double amount = rs.getDouble("amount");
         String category = rs.getString("category");
         LocalDate date = rs.getDate("date").toLocalDate();
+        String notes = rs.getString("notes");
         int userId = rs.getInt("user_id");
-        return new Transaction(id, type, amount, category, date, userId);
+        return new Transaction(id, type, amount, category, date, notes == null ? "" : notes, userId);
     }
 }

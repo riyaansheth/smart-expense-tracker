@@ -18,12 +18,22 @@ public class ExpenseService {
     }
 
     public void addExpense(double amount, String category, LocalDate date, int userId) {
-        Transaction transaction = new Transaction("EXPENSE", amount, category, date, userId);
+        Transaction transaction = new Transaction("EXPENSE", amount, category, date, "", userId);
+        transactionDAO.addTransaction(transaction);
+    }
+
+    public void addExpense(double amount, String category, LocalDate date, String notes, int userId) {
+        Transaction transaction = new Transaction("EXPENSE", amount, category, date, notes, userId);
         transactionDAO.addTransaction(transaction);
     }
 
     public void addIncome(double amount, String category, LocalDate date, int userId) {
-        Transaction transaction = new Transaction("INCOME", amount, category, date, userId);
+        Transaction transaction = new Transaction("INCOME", amount, category, date, "", userId);
+        transactionDAO.addTransaction(transaction);
+    }
+
+    public void addIncome(double amount, String category, LocalDate date, String notes, int userId) {
+        Transaction transaction = new Transaction("INCOME", amount, category, date, notes, userId);
         transactionDAO.addTransaction(transaction);
     }
 
@@ -51,6 +61,10 @@ public class ExpenseService {
         return transactionDAO.searchTransactions(type, category, date);
     }
 
+    public List<Transaction> searchTransactionsWithRange(String type, String category, String fromDate, String toDate) {
+        return transactionDAO.searchTransactionsWithRange(type, category, fromDate, toDate);
+    }
+
     public double getCurrentBalance() {
         List<Transaction> all = transactionDAO.getAllTransactions();
         double balance = 0.0;
@@ -66,6 +80,10 @@ public class ExpenseService {
 
     public Map<String, Double> getCategoryWiseSummary() {
         return transactionDAO.getCategoryWiseSummary();
+    }
+
+    public Map<String, Double> getMonthlySummary(int year, int month) {
+        return transactionDAO.getMonthlySummary(year, month);
     }
 
     public double getTotalIncome() {
@@ -88,6 +106,14 @@ public class ExpenseService {
             }
         }
         return total;
+    }
+
+    public int getTotalCount() {
+        return transactionDAO.getTotalCount();
+    }
+
+    public int getCountByType(String type) {
+        return transactionDAO.getCountByType(type);
     }
 
     public List<Transaction> getExpenses() {

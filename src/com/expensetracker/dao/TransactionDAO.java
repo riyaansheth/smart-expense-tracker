@@ -19,5 +19,13 @@ public interface TransactionDAO {
 
     List<Transaction> searchTransactions(String type, String category, String date);
 
+    List<Transaction> searchTransactionsWithRange(String type, String category, String fromDate, String toDate);
+
     Map<String, Double> getCategoryWiseSummary();
+
+    Map<String, Double> getMonthlySummary(int year, int month);
+
+    int getTotalCount();
+
+    int getCountByType(String type);
 }

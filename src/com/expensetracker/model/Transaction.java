@@ -9,9 +9,29 @@ public class Transaction {
     private double amount;
     private String category;
     private LocalDate date;
+    private String notes;
     private int userId;
 
     public Transaction() {
+    }
+
+    public Transaction(int id, String type, double amount, String category, LocalDate date, String notes, int userId) {
+        this.id = id;
+        this.type = type;
+        this.amount = amount;
+        this.category = category;
+        this.date = date;
+        this.notes = notes;
+        this.userId = userId;
+    }
+
+    public Transaction(String type, double amount, String category, LocalDate date, String notes, int userId) {
+        this.type = type;
+        this.amount = amount;
+        this.category = category;
+        this.date = date;
+        this.notes = notes;
+        this.userId = userId;
     }
 
     public Transaction(int id, String type, double amount, String category, LocalDate date, int userId) {
@@ -20,6 +40,7 @@ public class Transaction {
         this.amount = amount;
         this.category = category;
         this.date = date;
+        this.notes = "";
         this.userId = userId;
     }
 
@@ -28,60 +49,34 @@ public class Transaction {
         this.amount = amount;
         this.category = category;
         this.date = date;
+        this.notes = "";
         this.userId = userId;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
-    public String getType() {
-        return type;
-    }
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    public double getAmount() {
-        return amount;
-    }
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+    public String getNotes() { return notes == null ? "" : notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
     @Override
     public String toString() {
         return "Transaction{id=" + id + ", type=" + type + ", amount=" + amount
-                + ", category=" + category + ", date=" + date + ", userId=" + userId + "}";
+                + ", category=" + category + ", date=" + date + ", notes=" + notes + ", userId=" + userId + "}";
     }
 }
