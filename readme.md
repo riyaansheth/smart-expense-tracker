@@ -1,118 +1,57 @@
-# Expense Tracker — Java + JavaFX + MySQL
+# Expense Tracker v2 — Java + JavaFX + MySQL
 
-A desktop Expense Tracker application following layered architecture, the DAO design pattern, and all core OOP principles.
+## New Features Added
 
----
-
-## Prerequisites
-
-- macOS (Apple Silicon or Intel)
-- Java 21
-- JavaFX 21 SDK
-- MySQL 8.x
-- MySQL Connector/J 8.x JAR
-
----
-
-## Step 1 — Install Java 17
-
-```bash
-brew install openjdk@17
-echo 'export JAVA_HOME=$(/usr/libexec/java_home -v 17)' >> ~/.zshrc
-source ~/.zshrc
-java -version
-```
+- **Notes field** — optional extra detail on every transaction
+- **Date range filter** — From / To date pickers in the search bar
+- **Sortable columns** — click any column header to sort the table
+- **Transaction count** — income count + expense count shown in the top bar
+- **CSV Export** — exports all transactions to a .csv file via a file-save dialog
+- **Monthly Summary** — pick any month + year and see income, expenses, net for that period
+- **Category % breakdown** — progress bars and percentages in the category summary panel
+- **Dark mode toggle** — button in the top-right corner switches the theme
 
 ---
 
-## Step 2 — Install MySQL
+## Setup (same as before)
 
-```bash
-brew install mysql
-brew services start mysql
-mysql_secure_installation
-```
-
----
-
-## Step 3 — Create the Database
-
+### Step 1 — Run the DB script
 ```bash
 mysql -u root -p < db/setup.sql
 ```
+The script is safe to re-run — it uses `IF NOT EXISTS` and `ADD COLUMN IF NOT EXISTS`.
 
----
-
-## Step 4 — Download JavaFX 26 SDK
-
-1. Go to https://gluonhq.com/products/javafx/
-2. Download **JavaFX 26 SDK** for macOS (choose aarch64 for Apple Silicon, x64 for Intel)
-3. Extract and place the folder at:
-
-```
-ExpenseTracker/lib/javafx-sdk-26/
-```
-  
-Confirm the path contains:
-```
-lib/javafx-sdk-26/lib/javafx.controls.jar
-lib/javafx-sdk-26/lib/javafx.fxml.jar
-```
-
----
-
-## Step 5 — Download MySQL Connector/J
-
-1. Go to https://dev.mysql.com/downloads/connector/j/
-2. Download the **Platform Independent** ZIP
-3. Extract and copy `mysql-connector-j-8.x.x.jar` to:
-
-```
-ExpenseTracker/lib/mysql-connector-j-8.x.x.jar
-```
-
-Rename it to `mysql-connector.jar` for simplicity, or adjust the commands below.
-
----
-
-## Step 6 — Configure Database Password
-
+### Step 2 — Set your password
 Edit `src/com/expensetracker/db/DBConnection.java`:
-
 ```java
-private static final String PASSWORD = "your_mysql_root_password";
+private static final String PASSWORD = "your_password_here";
 ```
 
----
+### Step 3 — Place dependencies in lib/
+```
+lib/javafx-sdk-21/          ← JavaFX 21 SDK from gluonhq.com
+lib/mysql-connector.jar     ← MySQL Connector/J from dev.mysql.com
+```
 
-## Step 7 — Compile
-
-From the `ExpenseTracker/` root directory:
-
+### Step 4 — Compile
 ```bash
 javac \
-  --module-path lib/javafx-sdk-26/lib \
+  --module-path lib/javafx-sdk-21/lib \
   --add-modules javafx.controls,javafx.fxml \
   -cp "lib/mysql-connector.jar" \
   -d out \
   $(find src -name "*.java")
 ```
 
----
-
-## Step 8 — Copy FXML Resources
-
+### Step 5 — Copy resources
 ```bash
 cp -r resources/* out/
 ```
 
----
-
-## Step 9 — Run
-
+### Step 6 — Run
 ```bash
 java \
-  --module-path lib/javafx-sdk-26/lib \
+  --module-path lib/javafx-sdk-21/lib \
   --add-modules javafx.controls,javafx.fxml \
   -cp "out:lib/mysql-connector.jar" \
   com.expensetracker.MainApp
@@ -122,13 +61,14 @@ java \
 
 ## Troubleshooting
 
-| Issue | Fix |
+| Error | Fix |
 |---|---|
-| `SQLException: Access denied` | Verify the PASSWORD in DBConnection.java |
-| `ClassNotFoundException: com.mysql.cj.jdbc.Driver` | MySQL Connector JAR is missing from classpath |
-| `Location is not set` (FXML) | Ensure `cp -r resources/* out/` was run after compile |
-| JavaFX modules not found | Confirm the `--module-path` points to the correct `lib/` subfolder of the JavaFX SDK |
-| Apple Silicon: `Unsupported arch` | Download the aarch64 (ARM) JavaFX SDK, not the x64 one |
+| `Access denied` | Wrong password in DBConnection.java |
+| `Unknown database` | Re-run db/setup.sql |
+| `ClassNotFoundException` | mysql-connector.jar missing from lib/ |
+| `Location is not set` | Run `cp -r resources/* out/` after compiling |
+| JavaFX modules not found | Check `--module-path` points to `lib/javafx-sdk-21/lib` (inner lib folder) |
+| `Unknown column 'notes'` | Re-run db/setup.sql — it adds the notes column |
 
 ---
 
@@ -142,23 +82,22 @@ ExpenseTracker/
 │   │   ├── Record.java
 │   │   ├── Expense.java
 │   │   ├── Income.java
-│   │   ├── Transaction.java
+│   │   ├── Transaction.java       ← now includes notes field
 │   │   └── User.java
 │   ├── dao/
-│   │   ├── TransactionDAO.java
+│   │   ├── TransactionDAO.java    ← new: range search, monthly, count methods
 │   │   └── TransactionDAOImpl.java
 │   ├── service/
-│   │   └── ExpenseService.java
+│   │   └── ExpenseService.java    ← new: monthly summary, counts, overloaded add methods
 │   ├── db/
 │   │   └── DBConnection.java
+│   ├── export/
+│   │   └── CsvExporter.java       ← NEW
 │   └── controller/
-│       └── MainController.java
+│       └── MainController.java    ← all new features wired in
 ├── resources/com/expensetracker/
-│   └── main.fxml
+│   └── main.fxml                  ← rebuilt with all new UI panels
 ├── db/
 │   └── setup.sql
-├── lib/
-│   ├── javafx-sdk-26/
-│   └── mysql-connector.jar
 └── README.md
 ```
