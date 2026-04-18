@@ -1,3 +1,15 @@
+# Environment variables
 .env
-out/
 
+# Build output
+out/
+*.class
+*.jar
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
