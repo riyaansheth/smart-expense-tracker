@@ -55,6 +55,12 @@ public class MainController {
 
     @FXML private VBox summaryBox;
 
+    @FXML private HBox topBar;
+    @FXML private VBox leftPanel;
+    @FXML private VBox centerContainer;
+    @FXML private VBox searchBar;
+    @FXML private VBox rightPanel;
+
     @FXML private ComboBox<String> monthCombo;
     @FXML private ComboBox<Integer> yearCombo;
     @FXML private Label monthlyIncomeLabel;
@@ -142,6 +148,7 @@ public class MainController {
         refreshBalance();
         refreshSummary();
         refreshMonthly();
+        applyThemeStyles();
     }
 
     @FXML
@@ -295,13 +302,49 @@ public class MainController {
     @FXML
     public void handleToggleDarkMode() {
         darkMode = !darkMode;
-        if (darkMode) {
-            rootPane.setStyle(DARK_STYLE);
-            darkModeButton.setText("☀️  Light Mode");
-        } else {
-            rootPane.setStyle(LIGHT_STYLE);
-            darkModeButton.setText("🌙  Dark Mode");
-        }
+        darkModeButton.setText(darkMode ? "☀️  Light Mode" : "🌙  Dark Mode");
+        applyThemeStyles();
+    }
+
+    private void applyThemeStyles() {
+        rootPane.setStyle(darkMode ? DARK_STYLE : LIGHT_STYLE);
+        topBar.setStyle("-fx-background-color: #1a1a2e; -fx-padding: 12 24 12 24;");
+        leftPanel.setStyle(darkMode
+                ? "-fx-background-color: #2b2e3b; -fx-border-color: #3a3f54; -fx-border-width: 0 1 0 0;"
+                : "-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 1 0 0;");
+        centerContainer.setStyle(darkMode
+                ? "-fx-background-color: #1f2430;"
+                : "-fx-background-color: #f0f2f5;");
+        searchBar.setStyle(darkMode
+                ? "-fx-background-color: #2b2e3b; -fx-border-color: #3a3f54; -fx-border-width: 0 0 1 0; -fx-padding: 10 16 10 16;"
+                : "-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 1 0; -fx-padding: 10 16 10 16;");
+        rightPanel.setStyle(darkMode
+                ? "-fx-background-color: #2b2e3b; -fx-border-color: #3a3f54; -fx-border-width: 0 0 0 1;"
+                : "-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 0 1;");
+        transactionTable.setStyle(darkMode
+                ? "-fx-background-color: #2b2e3b; -fx-border-color: #3a3f54; -fx-border-radius: 6; -fx-background-radius: 6;"
+                : "-fx-background-color: white; -fx-border-color: #dde1e7; -fx-border-radius: 6; -fx-background-radius: 6;");
+
+        String fieldStyle = darkMode
+                ? "-fx-background-color: #2a2d3e; -fx-text-fill: white; -fx-border-color: #3a3f54; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"
+                : "-fx-background-color: #f8f9fa; -fx-text-fill: black; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;";
+        amountField.setStyle(fieldStyle);
+        categoryField.setStyle(fieldStyle);
+        notesField.setStyle(fieldStyle);
+        searchCategoryField.setStyle(fieldStyle);
+        typeCombo.setStyle(fieldStyle);
+        searchTypeCombo.setStyle(fieldStyle);
+        monthCombo.setStyle(fieldStyle);
+        yearCombo.setStyle(fieldStyle);
+        datePicker.setStyle(darkMode
+                ? "-fx-background-color: #2a2d3e; -fx-text-fill: white;"
+                : "");
+        fromDatePicker.setStyle(darkMode
+                ? "-fx-background-color: #2a2d3e; -fx-text-fill: white;"
+                : "");
+        toDatePicker.setStyle(darkMode
+                ? "-fx-background-color: #2a2d3e; -fx-text-fill: white;"
+                : "");
     }
 
     private void refreshTable() {
