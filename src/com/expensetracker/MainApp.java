@@ -13,6 +13,7 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/expensetracker/main.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 1100, 720);
+        scene.getStylesheets().add(getClass().getResource("/com/expensetracker/styles.css").toExternalForm());
         primaryStage.setTitle("Expense Tracker");
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(900);
