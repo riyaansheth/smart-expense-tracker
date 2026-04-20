@@ -12,9 +12,9 @@
 
     <!-- TOP BAR -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="20"
+        <HBox fx:id="topBar" alignment="CENTER_LEFT" spacing="20"
               style="-fx-background-color: #1a1a2e; -fx-padding: 12 24 12 24;">
-            <Label text="💰 Expense Tracker"
+            <Label text="Expense Tracker - Chayya Stores"
                    style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
             <Region HBox.hgrow="ALWAYS"/>
             <VBox alignment="CENTER_RIGHT" spacing="3">
@@ -36,7 +36,7 @@
 
     <!-- LEFT PANEL — Transaction Form -->
     <left>
-        <VBox spacing="10" minWidth="240" maxWidth="255"
+        <VBox fx:id="leftPanel" spacing="10" minWidth="240" maxWidth="255"
               style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 1 0 0;">
             <padding><Insets top="18" right="14" bottom="18" left="14"/></padding>
 
@@ -64,15 +64,15 @@
 
             <Separator/>
 
-            <Button text="➕  Add Income" onAction="#handleAddIncome" maxWidth="Infinity"
+            <Button text="Add Income" onAction="#handleAddIncome" maxWidth="Infinity"
                     style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
-            <Button text="➖  Add Expense" onAction="#handleAddExpense" maxWidth="Infinity"
+            <Button text="Add Expense" onAction="#handleAddExpense" maxWidth="Infinity"
                     style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
-            <Button text="✏️  Update Selected" onAction="#handleUpdate" maxWidth="Infinity"
+            <Button text="Update Selected" onAction="#handleUpdate" maxWidth="Infinity"
                     style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
-            <Button text="🗑  Delete Selected" onAction="#handleDelete" maxWidth="Infinity"
+            <Button text="Delete Selected" onAction="#handleDelete" maxWidth="Infinity"
                     style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
-            <Button text="📤  Export to CSV" onAction="#handleExportCsv" maxWidth="Infinity"
+            <Button text="Export to CSV" onAction="#handleExportCsv" maxWidth="Infinity"
                     style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
 
             <Region VBox.vgrow="ALWAYS"/>
@@ -85,10 +85,10 @@
 
     <!-- CENTER — Search + Table -->
     <center>
-        <VBox spacing="0" style="-fx-background-color: #f0f2f5;">
+        <VBox fx:id="centerContainer" spacing="0" style="-fx-background-color: #f0f2f5;">
 
             <!-- Search / Filter Bar -->
-            <VBox style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 1 0; -fx-padding: 10 16 10 16;"
+            <VBox fx:id="searchBar" style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 1 0; -fx-padding: 10 16 10 16;"
                   spacing="8">
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Label text="🔍 Filter" style="-fx-font-weight: bold; -fx-text-fill: #333; -fx-font-size: 13px;"/>
@@ -130,12 +130,12 @@
 
     <!-- RIGHT PANEL — Summary + Monthly -->
     <right>
-        <VBox spacing="0" minWidth="220" maxWidth="240"
+        <VBox fx:id="rightPanel" spacing="0" minWidth="220" maxWidth="240"
               style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 0 1;">
 
             <!-- Category Summary -->
             <VBox spacing="6" style="-fx-padding: 16 14 10 14;">
-                <Label text="📊 Category Expenses"
+                <Label text="Category Expenses"
                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
                 <Label text="With % breakdown"
                        style="-fx-font-size: 10px; -fx-text-fill: #999;"/>
@@ -150,7 +150,7 @@
 
             <!-- Monthly Summary -->
             <VBox spacing="8" style="-fx-padding: 14 14 16 14;">
-                <Label text="📅 Monthly Summary"
+                <Label text="Monthly Summary"
                        style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
                 <Separator/>
                 <HBox spacing="6" alignment="CENTER_LEFT">
