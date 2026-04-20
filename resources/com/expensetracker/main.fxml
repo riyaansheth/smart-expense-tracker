@@ -8,110 +8,110 @@
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.expensetracker.controller.MainController"
-            style="-fx-background-color: #f0f2f5;">
+            styleClass="root-pane">
 
     <!-- TOP BAR -->
     <top>
         <HBox fx:id="topBar" alignment="CENTER_LEFT" spacing="20"
-              style="-fx-background-color: #1a1a2e; -fx-padding: 12 24 12 24;">
-            <Label text="Expense Tracker - Chayya Stores"
-                   style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;"/>
+              styleClass="top-bar">
+            <Label text="EXPENSE CONTROL — CHAYYA STORE"
+                   styleClass="title-label"/>
             <Region HBox.hgrow="ALWAYS"/>
             <VBox alignment="CENTER_RIGHT" spacing="3">
                 <Label fx:id="balanceLabel" text="Balance: ₹ 0.00"
-                       style="-fx-text-fill: #27ae60; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                       styleClass="balance-label"/>
                 <HBox spacing="20">
                     <Label fx:id="totalIncomeLabel" text="Income: ₹ 0.00 (0)"
-                           style="-fx-text-fill: #2ecc71; -fx-font-size: 12px;"/>
+                           styleClass="info-label"/>
                     <Label fx:id="totalExpenseLabel" text="Expenses: ₹ 0.00 (0)"
-                           style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;"/>
+                           styleClass="info-label"/>
                     <Label fx:id="countLabel" text="Total Transactions: 0"
-                           style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+                           styleClass="info-label"/>
                 </HBox>
             </VBox>
             <Button fx:id="darkModeButton" text="🌙  Dark Mode" onAction="#handleToggleDarkMode"
-                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 6 14;"/>
+                    styleClass="action-button toggle-button"/>
         </HBox>
     </top>
 
     <!-- LEFT PANEL — Transaction Form -->
     <left>
         <VBox fx:id="leftPanel" spacing="10" minWidth="240" maxWidth="255"
-              style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 1 0 0;">
+              styleClass="side-card left-panel-glow">
             <padding><Insets top="18" right="14" bottom="18" left="14"/></padding>
 
             <Label text="Transaction Form"
-                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                   styleClass="panel-heading"/>
             <Separator/>
 
-            <Label text="Amount (₹) *" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
+            <Label text="Amount (₹) *" styleClass="panel-subtitle"/>
             <TextField fx:id="amountField" promptText="e.g. 1500.00"
-                       style="-fx-background-color: #f8f9fa; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"/>
+                       styleClass="text-input"/>
 
-            <Label text="Category *" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
+            <Label text="Category *" styleClass="panel-subtitle"/>
             <TextField fx:id="categoryField" promptText="e.g. Groceries"
-                       style="-fx-background-color: #f8f9fa; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"/>
+                       styleClass="text-input"/>
 
-            <Label text="Date *" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
-            <DatePicker fx:id="datePicker" maxWidth="Infinity"/>
+            <Label text="Date *" styleClass="panel-subtitle"/>
+            <DatePicker fx:id="datePicker" maxWidth="Infinity" styleClass="date-picker"/>
 
-            <Label text="Type *" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
-            <ComboBox fx:id="typeCombo" maxWidth="Infinity"/>
+            <Label text="Type *" styleClass="panel-subtitle"/>
+            <ComboBox fx:id="typeCombo" maxWidth="Infinity" styleClass="combo-box"/>
 
-            <Label text="Notes (optional)" style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
+            <Label text="Notes (optional)" styleClass="panel-subtitle"/>
             <TextField fx:id="notesField" promptText="Any extra detail..."
-                       style="-fx-background-color: #f8f9fa; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"/>
+                       styleClass="text-input"/>
 
             <Separator/>
 
             <Button text="Add Income" onAction="#handleAddIncome" maxWidth="Infinity"
-                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+                    styleClass="action-button primary-button"/>
             <Button text="Add Expense" onAction="#handleAddExpense" maxWidth="Infinity"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+                    styleClass="action-button danger-button"/>
             <Button text="Update Selected" onAction="#handleUpdate" maxWidth="Infinity"
-                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+                    styleClass="action-button warning-button"/>
             <Button text="Delete Selected" onAction="#handleDelete" maxWidth="Infinity"
-                    style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+                    styleClass="action-button danger-button"/>
             <Button text="Export to CSV" onAction="#handleExportCsv" maxWidth="Infinity"
-                    style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 0; -fx-cursor: hand;"/>
+                    styleClass="action-button accent-button"/>
 
             <Region VBox.vgrow="ALWAYS"/>
             <Separator/>
             <Label text="Click a row to load it for editing."
                    wrapText="true"
-                   style="-fx-font-size: 11px; -fx-text-fill: #999;"/>
+                   styleClass="panel-subtitle"/>
         </VBox>
     </left>
 
     <!-- CENTER — Search + Table -->
     <center>
-        <VBox fx:id="centerContainer" spacing="0" style="-fx-background-color: #f0f2f5;">
+        <VBox fx:id="centerContainer" spacing="0" styleClass="center-panel">
 
             <!-- Search / Filter Bar -->
-            <VBox fx:id="searchBar" style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 1 0; -fx-padding: 10 16 10 16;"
+            <VBox fx:id="searchBar" styleClass="filter-bar"
                   spacing="8">
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Label text="🔍 Filter" style="-fx-font-weight: bold; -fx-text-fill: #333; -fx-font-size: 13px;"/>
-                    <ComboBox fx:id="searchTypeCombo" prefWidth="110"/>
+                    <Label text="🔍 Filter" styleClass="panel-heading"/>
+                    <ComboBox fx:id="searchTypeCombo" prefWidth="110" styleClass="combo-box"/>
                     <TextField fx:id="searchCategoryField" promptText="Category..." prefWidth="150"
-                               style="-fx-background-color: #f8f9fa; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 6 10;"/>
-                    <Label text="From:" style="-fx-text-fill: #555; -fx-font-size: 12px;"/>
-                    <DatePicker fx:id="fromDatePicker" prefWidth="145"/>
-                    <Label text="To:" style="-fx-text-fill: #555; -fx-font-size: 12px;"/>
-                    <DatePicker fx:id="toDatePicker" prefWidth="145"/>
+                               styleClass="text-input"/>
+                    <Label text="From:" styleClass="panel-subtitle"/>
+                    <DatePicker fx:id="fromDatePicker" prefWidth="145" styleClass="date-picker"/>
+                    <Label text="To:" styleClass="panel-subtitle"/>
+                    <DatePicker fx:id="toDatePicker" prefWidth="145" styleClass="date-picker"/>
                     <Button text="Search" onAction="#handleSearch"
-                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 6 16; -fx-cursor: hand;"/>
+                            styleClass="action-button accent-button"/>
                     <Button text="Clear" onAction="#handleClearSearch"
-                            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 6 16; -fx-cursor: hand;"/>
+                            styleClass="action-button warning-button"/>
                 </HBox>
             </VBox>
 
             <!-- Transactions Table -->
-            <VBox VBox.vgrow="ALWAYS" style="-fx-padding: 14;">
+            <VBox VBox.vgrow="ALWAYS" styleClass="section-block">
                 <Label text="All Transactions  (click column headers to sort)"
-                       style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e; -fx-padding: 0 0 6 0;"/>
+                       styleClass="panel-heading"/>
                 <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS"
-                           style="-fx-background-color: white; -fx-border-color: #dde1e7; -fx-border-radius: 6; -fx-background-radius: 6;">
+                           styleClass="data-table">
                     <columns>
                         <TableColumn fx:id="colId"       text="ID"         prefWidth="50"  sortable="true"/>
                         <TableColumn fx:id="colType"     text="Type"       prefWidth="90"  sortable="true"/>
@@ -131,40 +131,40 @@
     <!-- RIGHT PANEL — Summary + Monthly -->
     <right>
         <VBox fx:id="rightPanel" spacing="0" minWidth="220" maxWidth="240"
-              style="-fx-background-color: #ffffff; -fx-border-color: #dde1e7; -fx-border-width: 0 0 0 1;">
+              styleClass="side-card right-panel-glow">
 
             <!-- Category Summary -->
-            <VBox spacing="6" style="-fx-padding: 16 14 10 14;">
+            <VBox spacing="6" styleClass="panel-block">
                 <Label text="Category Expenses"
-                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                       styleClass="panel-heading"/>
                 <Label text="With % breakdown"
-                       style="-fx-font-size: 10px; -fx-text-fill: #999;"/>
+                       styleClass="panel-subtitle"/>
                 <Separator/>
                 <ScrollPane fitToWidth="true" prefHeight="280"
-                            style="-fx-background-color: transparent; -fx-border-color: transparent;">
-                    <VBox fx:id="summaryBox" spacing="8" style="-fx-padding: 2 0;"/>
+                            styleClass="scroll-pane">
+                    <VBox fx:id="summaryBox" spacing="8" styleClass="section-block"/>
                 </ScrollPane>
             </VBox>
 
             <Separator/>
 
             <!-- Monthly Summary -->
-            <VBox spacing="8" style="-fx-padding: 14 14 16 14;">
+            <VBox spacing="8" styleClass="panel-block-alt">
                 <Label text="Monthly Summary"
-                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #1a1a2e;"/>
+                       styleClass="panel-heading"/>
                 <Separator/>
                 <HBox spacing="6" alignment="CENTER_LEFT">
-                    <ComboBox fx:id="monthCombo" prefWidth="115"/>
-                    <ComboBox fx:id="yearCombo"  prefWidth="72"/>
+                    <ComboBox fx:id="monthCombo" prefWidth="115" styleClass="combo-box"/>
+                    <ComboBox fx:id="yearCombo"  prefWidth="72" styleClass="combo-box"/>
                 </HBox>
                 <Button text="Show" onAction="#handleRefreshMonthly" maxWidth="Infinity"
-                        style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 6 0; -fx-cursor: hand;"/>
+                        styleClass="action-button accent-button"/>
                 <Label fx:id="monthlyIncomeLabel"  text="Income:   ₹ 0.00"
-                       style="-fx-font-size: 12px; -fx-text-fill: #27ae60;"/>
+                       styleClass="info-label"/>
                 <Label fx:id="monthlyExpenseLabel" text="Expenses: ₹ 0.00"
-                       style="-fx-font-size: 12px; -fx-text-fill: #e74c3c;"/>
+                       styleClass="info-label"/>
                 <Label fx:id="monthlyBalanceLabel" text="Net:      ₹ 0.00"
-                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                       styleClass="balance-label"/>
             </VBox>
         </VBox>
     </right>
